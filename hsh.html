@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SVG Preview</title>
+
+  <style>
+    body{
+      margin:0;
+      background:#0f0f0f;
+      color:white;
+      font-family:Arial,sans-serif;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      padding:30px;
+    }
+
+    h1{
+      margin-bottom:20px;
+    }
+
+    textarea{
+      width:90%;
+      max-width:900px;
+      height:220px;
+      background:#1b1b1b;
+      border:1px solid #333;
+      color:white;
+      padding:15px;
+      border-radius:15px;
+      resize:none;
+      outline:none;
+      font-size:14px;
+    }
+
+    .preview{
+      margin-top:30px;
+      width:300px;
+      height:300px;
+      background:#1b1b1b;
+      border:1px solid #333;
+      border-radius:20px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      padding:20px;
+    }
+
+    .preview svg{
+      width:100%;
+      height:100%;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>SVG Preview</h1>
+
+  <textarea id="svgInput">
+<svg viewBox="0 0 24 24" fill="white">
+  <path d="M12 3L3 10V21H9V14H15V21H21V10L12 3Z"/>
+</svg>
+  </textarea>
+
+  <div class="preview" id="preview"></div>
+
+  <script>
+    const input = document.getElementById("svgInput");
+    const preview = document.getElementById("preview");
+
+    function updateSVG() {
+      preview.innerHTML = input.value;
+    }
+
+    input.addEventListener("input", updateSVG);
+
+    updateSVG();
+  </script>
+
+</body>
+</html>
