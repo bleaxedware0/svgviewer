@@ -10,7 +10,7 @@ permissions:
 
 jobs:
   append:
-    if: startsWith(github.event.issue.title, '[gsgs-chat]')
+    if: github.event_name == 'issues' && startsWith(github.event.issue.title, '[gsgs-chat]')
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
