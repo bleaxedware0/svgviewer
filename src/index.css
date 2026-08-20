@@ -1,56 +1,101 @@
-body {
-  margin: 0;
-  background: #0f0f0f;
-  color: white;
-  font-family: Arial, sans-serif;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 30px;
+* {
+  box-sizing: border-box;
 }
 
+html,
+body,
 #root {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  margin: 0;
+  min-height: 100%;
 }
 
-h1 {
-  margin-bottom: 20px;
+body {
+  background: #0b1220;
+  color: #e8eefc;
+  font-family: system-ui, sans-serif;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.topbar {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid #22304a;
+}
+
+.topbar strong {
+  font-size: 22px;
+  letter-spacing: 0.02em;
+}
+
+.topbar span {
+  color: #8ea0c3;
+  font-size: 14px;
+}
+
+.layout {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding: 16px;
+}
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  min-height: 420px;
+}
+
+.panel h2 {
+  margin: 0 0 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #9db0d4;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+textarea,
+.canvas {
+  flex: 1;
+  width: 100%;
+  min-height: 360px;
+  background: #121b2e;
+  border: 1px solid #2a3c5f;
+  border-radius: 8px;
+  color: #e8eefc;
 }
 
 textarea {
-  width: 90%;
-  max-width: 900px;
-  height: 220px;
-  background: #1b1b1b;
-  border: 1px solid #333;
-  color: white;
-  padding: 15px;
-  border-radius: 15px;
+  padding: 14px;
   resize: none;
   outline: none;
-  font-size: 14px;
-  box-sizing: border-box;
+  font: 14px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }
 
-.preview {
-  margin-top: 30px;
-  width: 300px;
-  height: 300px;
-  background: #1b1b1b;
-  border: 1px solid #333;
-  border-radius: 20px;
+.canvas {
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 24px;
   overflow: hidden;
-  padding: 20px;
-  box-sizing: border-box;
+  color: #7dd3fc;
 }
 
-.preview svg {
-  width: 100%;
-  height: 100%;
+.canvas svg {
+  width: min(70%, 220px);
+  height: auto;
+}
+
+@media (max-width: 800px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
 }
