@@ -3,3 +3,9 @@ dist
 .DS_Store
 *.local
 .vite
+android/.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.iml
+.idea/
