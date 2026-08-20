@@ -1,6 +1,6 @@
 name: Sync gsgsChat
 
-on:
+"on":
   issues:
     types: [opened]
 
