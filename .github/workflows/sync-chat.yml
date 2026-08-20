@@ -1,0 +1,69 @@
+name: Sync gsgsChat
+
+on:
+  issues:
+    types: [opened]
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  append:
+    if: startsWith(github.event.issue.title, '[gsgs-chat]')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Append chat message
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_USER: ${{ github.event.issue.user.login }}
+          ISSUE_CREATED: ${{ github.event.issue.created_at }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: python3 - << 'PY'
+import json, os, pathlib
+
+text = (os.environ.get("ISSUE_BODY") or "").strip()
+text = text.replace("\r\n", "\n")[:500]
+login = (os.environ.get("ISSUE_USER") or "anon").strip()[:40]
+created = os.environ.get("ISSUE_CREATED") or ""
+try:
+    number = int(os.environ.get("ISSUE_NUMBER") or "0")
+except ValueError:
+    number = 0
+
+path = pathlib.Path("chat.json")
+if path.exists():
+    data = json.loads(path.read_text(encoding="utf-8"))
+else:
+    data = {"messages": []}
+if not isinstance(data.get("messages"), list):
+    data["messages"] = []
+
+data["messages"].append({
+    "id": number,
+    "user": login,
+    "text": text,
+    "createdAt": created,
+})
+data["messages"] = data["messages"][-200:]
+path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+PY
+      - name: Commit chat.json
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add chat.json
+          git diff --cached --quiet && echo "No chat changes" && exit 0
+          git commit -m "Add gsgsChat message from #${{ github.event.issue.number }}"
+          git push
+      - name: Close chat issue
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.update({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              state: "closed"
+            });

@@ -15,13 +15,15 @@ jobs:
           distribution: temurin
           java-version: "17"
       - uses: android-actions/setup-android@v3
-      - name: Build debug APK
+      - name: Build debug APKs
         run: |
           echo "sdk.dir=$ANDROID_HOME" > android/local.properties
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
+          ./gradlew assembleViewerDebug assembleChatDebug --no-daemon
       - uses: actions/upload-artifact@v4
         with:
-          name: gsgsViewer
-          path: android/app/build/outputs/apk/debug/*.apk
+          name: gsgs-apks
+          path: |
+            android/app/build/outputs/apk/viewer/debug/*.apk
+            android/app/build/outputs/apk/chat/debug/*.apk

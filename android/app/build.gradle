@@ -7,11 +7,30 @@ android {
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.gsgsviewer.app"
         minSdk 24
         targetSdk 34
         versionCode 1
         versionName "1.0"
+    }
+
+    buildFeatures {
+        buildConfig true
+    }
+
+    flavorDimensions "app"
+    productFlavors {
+        viewer {
+            dimension "app"
+            applicationId "com.gsgsviewer.app"
+            resValue "string", "app_name", "gsgsViewer"
+            buildConfigField "String", "START_URL", '"https://appassets.androidplatform.net/assets/index.html"'
+        }
+        chat {
+            dimension "app"
+            applicationId "com.gsgsviewer.chat"
+            resValue "string", "app_name", "gsgsChat"
+            buildConfigField "String", "START_URL", '"https://bleaxedware0.github.io/svgviewer/chat.html"'
+        }
     }
 
     buildTypes {
